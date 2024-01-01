@@ -2,13 +2,14 @@
 require "sinatra"
 require "sinatra/reloader"
 require "http"
+require "json"
 
-EXCHANGE_RATE_KEY = ENV["EXCHANGE_RATE_API"]
+
 # define a route
 get("/") do
 
   # build the API url, including the API key in the query string
-  api_url = "https://api.exchangerate.host/list?access_key=#{EXCHANGE_RATE_KEY}"
+  api_url = "http://api.exchangerate.host/list?access_key=" + ENV.fetch("EXCHANGE_RATE_API")
 
   # use HTTP.get to retrieve the API information
   raw_data = HTTP.get(api_url)
@@ -21,7 +22,9 @@ get("/") do
 
 
   # get the symbols from the JSON
-  @symbols = parsed_data
+  @symbols = parsed_data.fetch(currencies).keys
+   
+  
 
   # render a view template where I show the symbols
   erb(:homepage)
@@ -31,7 +34,7 @@ end
 get("/:from_currency") do
   @original_currency = params.fetch("from_currency")
 
-  api_url = "https://api.exchangerate.host/list?access_key=#{EXCHANGE_RATE_KEY}"
+  api_url = "http://api.exchangerate.host/list?access_key=#{EXCHANGE_RATE_API}"
   
   # some more code to parse the URL and render a view template
 end
@@ -40,7 +43,7 @@ get("/:from_currency/:to_currency") do
   @original_currency = params.fetch("from_currency")
   @destination_currency = params.fetch("to_currency")
 
-  api_url = "https://api.exchangerate.host/convert?access_key=#{EXCHANGE_RATE_KEY}&from=#{@original_currency}&to=#{@destination_currency}&amount=1"
+  api_url = "http://api.exchangerate.host/convert?access_key=#{EXCHANGE_RATE_API}&from=#{@original_currency}&to=#{@destination_currency}&amount=1"
   
   # some more code to parse the URL and render a view template
 end
