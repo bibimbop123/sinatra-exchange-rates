@@ -1,0 +1,22 @@
+Copy code
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Currency Symbols</title>
+</head>
+<body>
+  <h1>Currency Symbols</h1>
+
+  <ul>
+    <% if @symbols && !@symbols.empty? %>
+      <% @symbols.each do |symbol, description| %>
+        <li>
+          <%= symbol %>: <%= description %> <!-- Or adjust based on your structure -->
+        </li>
+      <% end %>
+    <% else %>
+      <li>No symbols found.</li>
+    <% end %>
+  </ul>
+</body>
+</html>
