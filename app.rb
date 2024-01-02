@@ -22,9 +22,7 @@ get("/") do
 
 
   # get the symbols from the JSON
-  @symbols = parsed_data.fetch(currencies).keys
-   
-  
+  @symbols = parsed_data.fetch("currencies").keys
 
   # render a view template where I show the symbols
   erb(:homepage)
@@ -39,7 +37,7 @@ get("/:from_currency") do
   raw_data = HTTP.get(api_url)
   raw_data_string = raw_data.to_s
   parsed_data = JSON.parse(raw_data_string)
-  @symbols = parsed_data.fetch("currencies").keys 
+  @symbols = parsed_data.fetch("currencies").keys
 
   erb(:from_currency) 
    
